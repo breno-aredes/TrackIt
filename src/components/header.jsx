@@ -13,6 +13,7 @@ export default function Header() {
 }
 
 const BodyHeader = styled.header`
+  width: 100%;
   height: 70px;
   background-color: #126ba5;
   font-family: "Playball", cursive;
@@ -23,6 +24,9 @@ const BodyHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  top: 0;
+  right: 0;
   h1 {
     margin-left: 18px;
     color: #ffffff;
