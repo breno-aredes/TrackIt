@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/img/trackit.png";
 
-export default function Home() {
+export default function Registration() {
   return (
     <BodyHome>
       <Img src={logo} alt="trackit" />
@@ -18,10 +18,16 @@ export default function Home() {
             required
           ></input>
         </label>
-        <Button>Entrar</Button>
+        <label htmlFor="name">
+          <input id="name" placeholder="nome" type="text" required></input>
+        </label>
+        <label htmlFor="url">
+          <input id="url" placeholder="foto" type="url" required></input>
+        </label>
+        <Button>Cadastrar</Button>
       </form>
 
-      <Link to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
+      <Link to="/">Já tem uma conta? Faça login!</Link>
     </BodyHome>
   );
 }
@@ -48,9 +54,10 @@ const BodyHome = styled.div`
     box-sizing: border-box;
     border-radius: 5px;
     font-family: "Lexend Deca", sans-serif;
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 400;
-    line-height: 26px;
+    line-height: 25px;
+    text-align: left;
   }
   input::placeholder {
     color: #e5e5e5;
