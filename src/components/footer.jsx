@@ -4,8 +4,11 @@ import styled from "styled-components";
 export default function Footer() {
   return (
     <BodyFooter>
-      <h1>Hábitos</h1>
-      <div>Hoje</div>
+      <StyledLink to="/habitos">Hábitos</StyledLink>
+      <StyledLink to="/hoje">
+        <div>Hoje</div>
+      </StyledLink>
+
       <StyledLink to="/historico">Histórico</StyledLink>
     </BodyFooter>
   );
