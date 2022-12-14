@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Footer() {
@@ -5,7 +6,7 @@ export default function Footer() {
     <BodyFooter>
       <h1>Hábitos</h1>
       <div>Hoje</div>
-      <h1>Histórico</h1>
+      <StyledLink to="/historico">Histórico</StyledLink>
     </BodyFooter>
   );
 }
@@ -40,4 +41,9 @@ const BodyFooter = styled.div`
     justify-content: center;
     color: #ffffff;
   }
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #52b6ff;
 `;

@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "../assets/style/GlobalStyle";
 import Habits from "../pages/habits";
+import Historic from "../pages/historic";
 import Home from "../pages/home";
 import Registration from "../pages/registration";
 
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cadastro" element={<Registration />} />
         <Route path="/habitos" element={<Habits />} />
+        <Route path="/historico" element={<Historic />}></Route>
       </Routes>
     </BrowserRouter>
   );

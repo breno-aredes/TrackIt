@@ -2,19 +2,15 @@ import styled from "styled-components";
 import Footer from "../components/footer";
 import Header from "../components/header";
 
-export default function Habits() {
+export default function Historic() {
   return (
     <BodyHabits>
       <Header />
       <ContainerHabits>
-        <h1>Meus hábitos</h1>
-        <button>+</button>
+        <h1>Histórico</h1>
       </ContainerHabits>
       <P>
-        <p>
-          Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-          começar a trackear!
-        </p>
+        <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
       </P>
       <Footer />
     </BodyHabits>
@@ -30,7 +26,7 @@ const BodyHabits = styled.div`
 
 const ContainerHabits = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   padding-top: 28px;
   margin-bottom: 28px;
   h1 {
@@ -40,20 +36,7 @@ const ContainerHabits = styled.div`
     font-size: 23px;
     font-weight: 400;
     line-height: 29px;
-    margin-left: 18px;
-  }
-  button {
-    border: none;
-    height: 35px;
-    width: 40px;
-    border-radius: 5px;
-    background-color: #52b6ff;
-    font-family: "Lexend Deca", sans-serif;
-    font-size: 27px;
-    font-weight: 400;
-    line-height: 34px;
-    color: #ffffff;
-    margin-right: 18px;
+    margin-left: 17px;
   }
 `;
 
@@ -64,9 +47,7 @@ const P = styled.div`
   font-weight: 400;
   line-height: 22px;
   color: #666666;
-  display: flex;
-  justify-content: left;
-  margin-left: 18px;
+  margin-left: 15px;
   p {
     width: 338px;
   }
