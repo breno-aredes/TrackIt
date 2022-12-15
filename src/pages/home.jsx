@@ -1,24 +1,53 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/img/trackit.png";
 
 export default function Home() {
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  function login(e) {
+    e.preventDefault();
+    const post = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login`;
+    const data = { email, password };
+
+    const promise = axios.post(post, data);
+    promise.then((res) => {
+      navigate("/habitos");
+      console.log(res);
+    });
+
+    promise.catch((err) => console.log(err.response.data.message));
+  }
+
   return (
     <BodyHome>
       <Img src={logo} alt="trackit" />
-      <form>
+      <form onSubmit={login}>
         <label htmlFor="email">
-          <input id="email" placeholder="e-mail" type="email" required></input>
+          <input
+            id="email"
+            placeholder="e-mail"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          ></input>
         </label>
         <label htmlFor="password">
           <input
             id="password"
             placeholder="senha"
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           ></input>
         </label>
-        <Button>Entrar</Button>
+        <Button type="submit">Entrar</Button>
       </form>
 
       <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>

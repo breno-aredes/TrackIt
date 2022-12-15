@@ -17,9 +17,11 @@ export default function Registration() {
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
     const data = { email, name, image, password };
 
-    const promisse = axios.post(post, data);
-    promisse.then(navigate("/"));
-    promisse.catch((err) => console.log(err.response.data));
+    const promise = axios.post(post, data);
+    promise.then((res) => {
+      navigate("/");
+    });
+    promise.catch((err) => alert(err.response.data.message));
   }
 
   return (
