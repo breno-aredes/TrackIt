@@ -7,25 +7,53 @@ import Header from "../components/header";
 export default function Habits() {
   const [creatList, setCreatList] = useState(false);
   const ArrWeekday = ["D", "S", "T", "Q", "Q", "S", "S"];
-  const [weekDay, setWeekDay] = useState([]);
+  const [days, setWeekDay] = useState([]);
+  const [name, setName] = useState("");
+  const [answerList, setAnswerList] = useState([]);
 
-  // useEffect(() => {
-  //   const URL =
-  //     "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-  //   const token =
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzIzMywiaWF0IjoxNjcxMDc3NjMwfQ.-SAWbfaVd4QalodbVRJm9erlOQFIw-Mopgq1C2S9WZ4";
+  useEffect(() => {
+    const URL =
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzIzMywiaWF0IjoxNjcxMTEzMDk2fQ.0NEG_Aptsmzhka1lnCoG6RAwB1mPOdR3ST_C0rohoRI";
 
-  //   const config = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-  //   const promise = axios.get(URL);
+    const promise = axios.get(URL, config);
 
-  //   promise.then((res) => console.log(res));
-  //   promise.catch((err) => console.log(err.response.data));
-  // }, []);
+    promise.then((res) => {
+      setAnswerList(res.data);
+    });
+    promise.catch((err) => console.log(err.response.data));
+  }, []);
+
+  function cancelList() {
+    setCreatList(false);
+    setWeekDay([]);
+  }
+
+  function submitList(e) {
+    const data = { name, days };
+
+    const config = {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzIzMywiaWF0IjoxNjcxMTEzMDk2fQ.0NEG_Aptsmzhka1lnCoG6RAwB1mPOdR3ST_C0rohoRI",
+      },
+    };
+
+    const promise = axios.post(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+      data,
+      config
+    );
+    promise.then(cancelList());
+    promise.catch((err) => console.log(err.response.data));
+  }
 
   return (
     <BodyHabits>
@@ -34,26 +62,42 @@ export default function Habits() {
         <h1>Meus hábitos</h1>
         <button onClick={() => setCreatList(true)}>+</button>
       </ContainerHabits>
+
       {creatList && (
-        <ContainerCreat>
-          <input placeholder="nome do hábito"></input>
+        <ContainerList>
+          <label htmlFor="habitsName">
+            <input
+              id="habitsName"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="nome do hábito"
+              required
+            ></input>
+          </label>
           <ContainerWeekDay>
             {ArrWeekday.map((w, i) => (
               <ContainerButtonWeekDay
                 key={i}
-                active={weekDay.includes(i)}
-                onClick={() => setWeekDay([...weekDay, i])}
+                active={days.includes(i)}
+                onClick={() => setWeekDay([...days, i])}
               >
                 {w}
               </ContainerButtonWeekDay>
             ))}
           </ContainerWeekDay>
           <ContainerEnd>
-            <p onClick={() => setCreatList(false)}>Cancelar</p>
-            <ButtonSave onClick={() => alert("oi")}>Salvar</ButtonSave>
+            <p onClick={() => cancelList()}>Cancelar</p>
+            <ButtonSave onClick={() => submitList()}>Salvar</ButtonSave>
           </ContainerEnd>
-        </ContainerCreat>
+        </ContainerList>
       )}
+
+      {answerList.map((A) => (
+        <ContainerList>
+          <p>{A.id}</p>
+        </ContainerList>
+      ))}
+
       <P>
         <p>
           Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
@@ -117,13 +161,12 @@ const P = styled.div`
   }
 `;
 
-const ContainerCreat = styled.div`
-  width: 340px;
-  height: 180px;
+const ContainerList = styled.div`
   background-color: #ffffff;
   margin-bottom: 29px;
   margin-left: 17px;
   border-radius: 5px;
+  margin-right: 17px;
   input {
     height: 45px;
     width: 303px;
@@ -185,6 +228,7 @@ const ButtonSave = styled.button`
   border-radius: 5px;
   margin-right: 16px;
   margin-left: 23px;
+  margin-bottom: 15px;
   font-family: "Lexend Deca", sans-serif;
   font-size: 16px;
   font-weight: 400;
