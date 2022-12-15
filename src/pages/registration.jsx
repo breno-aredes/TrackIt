@@ -102,6 +102,7 @@ const BodyHome = styled.div`
     font-weight: 400;
     line-height: 25px;
     text-align: left;
+    color: #666666;
   }
   input::placeholder {
     color: #e5e5e5;

@@ -80,6 +80,7 @@ const BodyHome = styled.div`
     font-size: 21px;
     font-weight: 400;
     line-height: 26px;
+    color: #666666;
   }
   input::placeholder {
     color: #e5e5e5;
