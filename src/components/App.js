@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "../assets/style/GlobalStyle";
-import Today from "../pages/ today";
+import Today from "../pages/today";
 import Habits from "../pages/habits";
 import Historic from "../pages/historic";
 import Home from "../pages/home";

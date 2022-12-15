@@ -21,7 +21,7 @@ export default function Home() {
         <Button>Entrar</Button>
       </form>
 
-      <Link to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
+      <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
     </BodyHome>
   );
 }
@@ -75,4 +75,8 @@ const Button = styled.button`
   font-size: 21px;
   font-weight: 400;
   line-height: 26px;
+`;
+
+const StyledLink = styled(Link)`
+  color: #52b6ff;
 `;

@@ -1,33 +1,75 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/img/trackit.png";
 
 export default function Registration() {
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [image, setImage] = useState("");
+  const navigate = useNavigate();
+
+  function creatAccount(e) {
+    e.preventDefault();
+    const post =
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
+    const data = { email, name, image, password };
+
+    const promisse = axios.post(post, data);
+    promisse.then(navigate("/"));
+    promisse.catch((err) => console.log(err.response.data));
+  }
+
   return (
     <BodyHome>
       <Img src={logo} alt="trackit" />
-      <form>
+      <form onSubmit={creatAccount}>
         <label htmlFor="email">
-          <input id="email" placeholder="e-mail" type="email" required></input>
+          <input
+            id="email"
+            placeholder="e-mail"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          ></input>
         </label>
         <label htmlFor="password">
           <input
             id="password"
             placeholder="senha"
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           ></input>
         </label>
         <label htmlFor="name">
-          <input id="name" placeholder="nome" type="text" required></input>
+          <input
+            id="name"
+            placeholder="nome"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          ></input>
         </label>
-        <label htmlFor="url">
-          <input id="url" placeholder="foto" type="url" required></input>
+        <label htmlFor="image">
+          <input
+            id="image"
+            placeholder="foto"
+            type="url"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            required
+          ></input>
         </label>
-        <Button>Cadastrar</Button>
+        <Button type="submit">Cadastrar</Button>
       </form>
 
-      <Link to="/">Já tem uma conta? Faça login!</Link>
+      <StyledLink to="/">Já tem uma conta? Faça login!</StyledLink>
     </BodyHome>
   );
 }
@@ -82,4 +124,8 @@ const Button = styled.button`
   font-size: 21px;
   font-weight: 400;
   line-height: 26px;
+`;
+
+const StyledLink = styled(Link)`
+  color: #52b6ff;
 `;
