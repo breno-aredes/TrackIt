@@ -1,13 +1,10 @@
 import styled from "styled-components";
 
-export default function Header() {
+export default function Header(props) {
   return (
     <BodyHeader>
       <h1>TrackIt</h1>
-      <img
-        src="https://static.vecteezy.com/ti/vetor-gratis/p3/70328-bob-esponja-cartoon-gratis-vetor.jpg"
-        alt="foto de perfil"
-      />
+      <img src={props.imageUser} alt="foto de perfil" />
     </BodyHeader>
   );
 }

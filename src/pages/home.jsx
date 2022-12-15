@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/img/trackit.png";
 
-export default function Home() {
+export default function Home(props) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+
+  const { setTokerUser, setImageUser } = props;
 
   function login(e) {
     e.preventDefault();
@@ -16,6 +18,8 @@ export default function Home() {
 
     const promise = axios.post(post, data);
     promise.then((res) => {
+      setTokerUser(res.data.token);
+      setImageUser(res.data.image);
       navigate("/habitos");
       console.log(res);
     });

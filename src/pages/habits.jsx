@@ -1,25 +1,27 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "../components/footer";
 import Header from "../components/header";
 
-export default function Habits() {
+export default function Habits(props) {
   const [creatList, setCreatList] = useState(false);
   const ArrWeekday = ["D", "S", "T", "Q", "Q", "S", "S"];
   const [days, setWeekDay] = useState([]);
   const [name, setName] = useState("");
   const [answerList, setAnswerList] = useState([]);
+  const navigate = useNavigate();
+
+  const { tokenUser, imageUser } = props;
 
   useEffect(() => {
     const URL =
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzIzMywiaWF0IjoxNjcxMTEzMDk2fQ.0NEG_Aptsmzhka1lnCoG6RAwB1mPOdR3ST_C0rohoRI";
 
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tokenUser}`,
       },
     };
 
@@ -27,6 +29,7 @@ export default function Habits() {
 
     promise.then((res) => {
       setAnswerList(res.data);
+      console.log(res.data);
     });
     promise.catch((err) => console.log(err.response.data));
   }, []);
@@ -36,13 +39,12 @@ export default function Habits() {
     setWeekDay([]);
   }
 
-  function submitList(e) {
+  function submitList() {
     const data = { name, days };
 
     const config = {
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzIzMywiaWF0IjoxNjcxMTEzMDk2fQ.0NEG_Aptsmzhka1lnCoG6RAwB1mPOdR3ST_C0rohoRI",
+        Authorization: `Bearer ${tokenUser}`,
       },
     };
 
@@ -51,13 +53,13 @@ export default function Habits() {
       data,
       config
     );
-    promise.then(cancelList());
+    promise.then(cancelList(), navigate("/habitos"));
     promise.catch((err) => console.log(err.response.data));
   }
 
   return (
     <BodyHabits>
-      <Header />
+      <Header imageUser={imageUser} />
       <ContainerHabits>
         <h1>Meus hábitos</h1>
         <button onClick={() => setCreatList(true)}>+</button>
@@ -93,16 +95,25 @@ export default function Habits() {
       )}
 
       {answerList.map((A) => (
-        <ContainerList>
-          <p>{A.id}</p>
+        <ContainerList key={A.id}>
+          <p>{A.name}</p>
+          <ContainerWeekDay>
+            {ArrWeekday.map((w, i) => (
+              <ContainerButtonWeekDay key={i} active={A.days.includes(i)}>
+                {w}
+              </ContainerButtonWeekDay>
+            ))}
+          </ContainerWeekDay>
         </ContainerList>
       ))}
 
       <P>
-        <p>
-          Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-          começar a trackear!
-        </p>
+        {!answerList && (
+          <p>
+            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
+            começar a trackear!
+          </p>
+        )}
       </P>
       <Footer />
     </BodyHabits>
@@ -114,6 +125,7 @@ const BodyHabits = styled.div`
   position: relative;
   height: 100vh;
   margin-top: 70px;
+  padding-bottom: 100px;
 `;
 
 const ContainerHabits = styled.div`
@@ -186,6 +198,15 @@ const ContainerList = styled.div`
   input::placeholder {
     color: #e5e5e5;
   }
+  p {
+    font-family: "Lexend Deca", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    text-align: left;
+    color: #666666;
+    padding: 13px 0px 0px 19px;
+  }
 `;
 
 const ContainerWeekDay = styled.div`
@@ -202,7 +223,7 @@ const ContainerButtonWeekDay = styled.button`
   height: 30px;
   border-radius: 5px;
   margin-right: 4px;
-  margin-bottom: 29px;
+  margin-bottom: 15px;
 `;
 
 const ContainerEnd = styled.div`
@@ -215,7 +236,7 @@ const ContainerEnd = styled.div`
     line-height: 20px;
     letter-spacing: 0em;
     text-align: center;
-    margin-top: 7px;
+    margin-top: 5px;
     cursor: pointer;
     color: #52b6ff;
   }
@@ -235,5 +256,6 @@ const ButtonSave = styled.button`
   line-height: 20px;
   border: none;
   color: #ffffff;
+  margin-top: 10px;
   cursor: pointer;
 `;
