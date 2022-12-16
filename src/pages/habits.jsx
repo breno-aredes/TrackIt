@@ -1,19 +1,19 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/footer";
 import Header from "../components/header";
+import { AuthContext } from "../Context/auth";
 
-export default function Habits(props) {
+export default function Habits() {
   const [creatList, setCreatList] = useState(false);
   const ArrWeekday = ["D", "S", "T", "Q", "Q", "S", "S"];
   const [days, setWeekDay] = useState([]);
   const [name, setName] = useState("");
   const [answerList, setAnswerList] = useState([]);
-  const navigate = useNavigate();
 
-  const { tokenUser, imageUser } = props;
+  const { token } = useContext(AuthContext);
+  // const { tokenUser, imageUser } = props;
 
   useEffect(() => {
     const URL =
@@ -21,18 +21,16 @@ export default function Habits(props) {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${tokenUser}`,
+        Authorization: `Bearer ${token}`,
       },
     };
-
     const promise = axios.get(URL, config);
 
     promise.then((res) => {
       setAnswerList(res.data);
-      console.log(res.data);
     });
     promise.catch((err) => console.log(err.response.data));
-  }, []);
+  }, [submitList]);
 
   function cancelList() {
     setCreatList(false);
@@ -40,11 +38,12 @@ export default function Habits(props) {
   }
 
   function submitList() {
+    console.log(token);
     const data = { name, days };
 
     const config = {
       headers: {
-        Authorization: `Bearer ${tokenUser}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -53,13 +52,13 @@ export default function Habits(props) {
       data,
       config
     );
-    promise.then(cancelList(), navigate("/habitos"));
+    promise.then(cancelList(), setName(""));
     promise.catch((err) => console.log(err.response.data));
   }
 
   return (
     <BodyHabits>
-      <Header imageUser={imageUser} />
+      <Header />
       <ContainerHabits>
         <h1>Meus hábitos</h1>
         <button onClick={() => setCreatList(true)}>+</button>

@@ -5,7 +5,8 @@ import Habits from "../pages/habits";
 import Historic from "../pages/historic";
 import Home from "../pages/home";
 import Registration from "../pages/registration";
-import { useState } from "react";
+import React, { useState } from "react";
+import AuthProvider from "../Context/auth";
 
 function App() {
   const [imageUser, setImageUser] = useState("");
@@ -13,23 +14,25 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GlobalStyle />
+      <AuthProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home setTokerUser={setTokerUser} setImageUser={setImageUser} />
+            }
+          />
+          <Route path="/cadastro" element={<Registration />} />
+          <Route
+            path="/habitos"
+            element={<Habits tokenUser={tokenUser} imageUser={imageUser} />}
+          />
+          <Route path="/historico" element={<Historic />}></Route>
+          <Route path="/hoje" element={<Today />}></Route>
+        </Routes>
+      </AuthProvider>
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home setTokerUser={setTokerUser} setImageUser={setImageUser} />
-          }
-        />
-        <Route path="/cadastro" element={<Registration />} />
-        <Route
-          path="/habitos"
-          element={<Habits tokenUser={tokenUser} imageUser={imageUser} />}
-        />
-        <Route path="/historico" element={<Historic />}></Route>
-        <Route path="/hoje" element={<Today />}></Route>
-      </Routes>
+      <GlobalStyle />
     </BrowserRouter>
   );
 }

@@ -1,15 +1,18 @@
 import axios from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/img/trackit.png";
+import { AuthContext } from "../Context/auth";
 
 export default function Home(props) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
-  const { setTokerUser, setImageUser } = props;
+  //const { setTokerUser, setImageUser } = props;
+
+  const { singIn } = useContext(AuthContext);
 
   function login(e) {
     e.preventDefault();
@@ -18,10 +21,12 @@ export default function Home(props) {
 
     const promise = axios.post(post, data);
     promise.then((res) => {
-      setTokerUser(res.data.token);
-      setImageUser(res.data.image);
-      navigate("/habitos");
-      console.log(res);
+      singIn(res.data.image, res.data.token);
+
+      // setTokerUser(res.data.token);
+      // setImageUser(res.data.image);
+      // navigate("/habitos");
+      // console.log(res);
     });
 
     promise.catch((err) => console.log(err.response.data.message));

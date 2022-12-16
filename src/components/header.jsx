@@ -1,10 +1,14 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { AuthContext } from "../Context/auth";
 
-export default function Header(props) {
+export default function Header() {
+  const { image } = useContext(AuthContext);
+
   return (
     <BodyHeader>
       <h1>TrackIt</h1>
-      <img src={props.imageUser} alt="foto de perfil" />
+      <img src={image} alt="foto de perfil" />
     </BodyHeader>
   );
 }

@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import Footer from "../components/footer";
 import Header from "../components/header";
+import { AuthContext } from "../Context/auth";
 
 export default function Today() {
+  const { token } = useContext(AuthContext);
+
   return (
     <BodyHabits>
       <Header />
