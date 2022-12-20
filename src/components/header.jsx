@@ -6,7 +6,7 @@ export default function Header() {
   const { image } = useContext(AuthContext);
 
   return (
-    <BodyHeader>
+    <BodyHeader data-test="header">
       <h1>TrackIt</h1>
       <img src={image} alt="foto de perfil" />
     </BodyHeader>

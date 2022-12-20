@@ -38,6 +38,7 @@ export default function Home(props) {
       <form onSubmit={login}>
         <label htmlFor="email">
           <input
+            data-test="email-input"
             id="email"
             placeholder="e-mail"
             type="email"
@@ -48,6 +49,7 @@ export default function Home(props) {
         </label>
         <label htmlFor="password">
           <input
+            data-test="password-input"
             id="password"
             placeholder="senha"
             type="password"
@@ -56,10 +58,14 @@ export default function Home(props) {
             required
           ></input>
         </label>
-        <Button type="submit">Entrar</Button>
+        <Button data-test="login-btn" type="submit">
+          Entrar
+        </Button>
       </form>
 
-      <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
+      <StyledLink data-test="signup-link" to="/cadastro">
+        Não tem uma conta? Cadastre-se!
+      </StyledLink>
     </BodyHome>
   );
 }

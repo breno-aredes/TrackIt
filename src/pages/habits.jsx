@@ -11,9 +11,9 @@ export default function Habits() {
   const [days, setWeekDay] = useState([]);
   const [name, setName] = useState("");
   const [answerList, setAnswerList] = useState([]);
+  const [run, setRun] = useState(0);
 
   const { token } = useContext(AuthContext);
-  // const { tokenUser, imageUser } = props;
 
   useEffect(() => {
     const URL =
@@ -30,15 +30,15 @@ export default function Habits() {
       setAnswerList(res.data);
     });
     promise.catch((err) => console.log(err.response.data));
-  }, [submitList]);
+  }, [run]);
 
   function cancelList() {
     setCreatList(false);
     setWeekDay([]);
+    setRun(run + 1);
   }
 
   function submitList() {
-    console.log(token);
     const data = { name, days };
 
     const config = {
@@ -61,13 +61,16 @@ export default function Habits() {
       <Header />
       <ContainerHabits>
         <h1>Meus hábitos</h1>
-        <button onClick={() => setCreatList(true)}>+</button>
+        <button data-test="habit-create-btn" onClick={() => setCreatList(true)}>
+          +
+        </button>
       </ContainerHabits>
 
       {creatList && (
-        <ContainerList>
+        <ContainerList data-test="habit-create-container">
           <label htmlFor="habitsName">
             <input
+              data-test="habit-name-input"
               id="habitsName"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -78,6 +81,7 @@ export default function Habits() {
           <ContainerWeekDay>
             {ArrWeekday.map((w, i) => (
               <ContainerButtonWeekDay
+                data-test="habit-day"
                 key={i}
                 active={days.includes(i)}
                 onClick={() => setWeekDay([...days, i])}
@@ -87,18 +91,29 @@ export default function Habits() {
             ))}
           </ContainerWeekDay>
           <ContainerEnd>
-            <p onClick={() => cancelList()}>Cancelar</p>
-            <ButtonSave onClick={() => submitList()}>Salvar</ButtonSave>
+            <p data-test="habit-create-cancel-btn" onClick={() => cancelList()}>
+              Cancelar
+            </p>
+            <ButtonSave
+              data-test="habit-create-save-btn"
+              onClick={() => submitList()}
+            >
+              Salvar
+            </ButtonSave>
           </ContainerEnd>
         </ContainerList>
       )}
 
       {answerList.map((A) => (
-        <ContainerList key={A.id}>
-          <p>{A.name}</p>
+        <ContainerList data-test="habit-container" key={A.id}>
+          <p data-test="habit-name">{A.name}</p>
           <ContainerWeekDay>
             {ArrWeekday.map((w, i) => (
-              <ContainerButtonWeekDay key={i} active={A.days.includes(i)}>
+              <ContainerButtonWeekDay
+                data-test="habit-day"
+                key={i}
+                active={A.days.includes(i)}
+              >
                 {w}
               </ContainerButtonWeekDay>
             ))}
@@ -122,7 +137,6 @@ export default function Habits() {
 const BodyHabits = styled.div`
   background-color: #e5e5e5;
   position: relative;
-  height: 100vh;
   margin-top: 70px;
   padding-bottom: 100px;
 `;
