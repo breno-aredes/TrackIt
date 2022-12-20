@@ -56,6 +56,21 @@ export default function Habits() {
     promise.catch((err) => console.log(err.response.data));
   }
 
+  function deleteHabit(id) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const promise = axios.delete(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,
+      config
+    );
+    promise.then(() => cancelList());
+    promise.catch((err) => console.log(err.response.data));
+  }
+
   return (
     <BodyHabits>
       <Header />
@@ -68,56 +83,69 @@ export default function Habits() {
 
       {creatList && (
         <ContainerList data-test="habit-create-container">
-          <label htmlFor="habitsName">
-            <input
-              data-test="habit-name-input"
-              id="habitsName"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="nome do hábito"
-              required
-            ></input>
-          </label>
-          <ContainerWeekDay>
-            {ArrWeekday.map((w, i) => (
-              <ContainerButtonWeekDay
-                data-test="habit-day"
-                key={i}
-                active={days.includes(i)}
-                onClick={() => setWeekDay([...days, i])}
+          <div>
+            <label htmlFor="habitsName">
+              <input
+                data-test="habit-name-input"
+                id="habitsName"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="nome do hábito"
+                required
+              ></input>
+            </label>
+            <ContainerWeekDay>
+              {ArrWeekday.map((w, i) => (
+                <ContainerButtonWeekDay
+                  data-test="habit-day"
+                  key={i}
+                  active={days.includes(i)}
+                  onClick={() => setWeekDay([...days, i])}
+                >
+                  {w}
+                </ContainerButtonWeekDay>
+              ))}
+            </ContainerWeekDay>
+            <ContainerEnd>
+              <p
+                data-test="habit-create-cancel-btn"
+                onClick={() => cancelList()}
               >
-                {w}
-              </ContainerButtonWeekDay>
-            ))}
-          </ContainerWeekDay>
-          <ContainerEnd>
-            <p data-test="habit-create-cancel-btn" onClick={() => cancelList()}>
-              Cancelar
-            </p>
-            <ButtonSave
-              data-test="habit-create-save-btn"
-              onClick={() => submitList()}
-            >
-              Salvar
-            </ButtonSave>
-          </ContainerEnd>
+                Cancelar
+              </p>
+              <ButtonSave
+                data-test="habit-create-save-btn"
+                onClick={() => submitList()}
+              >
+                Salvar
+              </ButtonSave>
+            </ContainerEnd>
+          </div>
         </ContainerList>
       )}
 
       {answerList.map((A) => (
         <ContainerList data-test="habit-container" key={A.id}>
-          <p data-test="habit-name">{A.name}</p>
-          <ContainerWeekDay>
-            {ArrWeekday.map((w, i) => (
-              <ContainerButtonWeekDay
-                data-test="habit-day"
-                key={i}
-                active={A.days.includes(i)}
-              >
-                {w}
-              </ContainerButtonWeekDay>
-            ))}
-          </ContainerWeekDay>
+          <div>
+            <p data-test="habit-name">{A.name}</p>
+            <ContainerWeekDay>
+              {ArrWeekday.map((w, i) => (
+                <ContainerButtonWeekDay
+                  data-test="habit-day"
+                  key={i}
+                  active={A.days.includes(i)}
+                >
+                  {w}
+                </ContainerButtonWeekDay>
+              ))}
+            </ContainerWeekDay>
+          </div>
+
+          <ion-icon
+            data-test="habit-delete-btn"
+            name="trash-outline"
+            onClick={() => deleteHabit(A.id)}
+          ></ion-icon>
         </ContainerList>
       ))}
 
@@ -149,7 +177,6 @@ const ContainerHabits = styled.div`
   h1 {
     font-family: "Lexend Deca", sans-serif;
     color: #126ba5;
-    font-family: Lexend Deca;
     font-size: 23px;
     font-weight: 400;
     line-height: 29px;
@@ -192,6 +219,8 @@ const ContainerList = styled.div`
   margin-left: 17px;
   border-radius: 5px;
   margin-right: 17px;
+  display: flex;
+  justify-content: space-between;
   input {
     height: 45px;
     width: 303px;
@@ -219,6 +248,11 @@ const ContainerList = styled.div`
     text-align: left;
     color: #666666;
     padding: 13px 0px 0px 19px;
+  }
+  ion-icon {
+    font-size: 15px;
+    margin: 11px 11px;
+    color: #666666;
   }
 `;
 

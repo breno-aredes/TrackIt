@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 export default function Today() {
   const { token } = useContext(AuthContext);
   const [answerList, setAnswerList] = useState([]);
-  const [run, setRun] = useState(0);
+  const [run, setRun] = useState(true);
 
   const weekDays = [
     "Domingo",
@@ -51,7 +51,7 @@ export default function Today() {
       {},
       config
     );
-    promise.then(setRun(run + 1));
+    promise.then(() => setRun(!run));
     promise.catch((err) => console.log(err.response.data));
   }
 
@@ -67,7 +67,7 @@ export default function Today() {
       {},
       config
     );
-    promise.then(setRun(run - 1));
+    promise.then(() => setRun(!run));
     promise.catch((err) => console.log(err.response.data));
   }
 
