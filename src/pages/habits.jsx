@@ -57,6 +57,9 @@ export default function Habits() {
   }
 
   function deleteHabit(id) {
+    if (!window.confirm("Você tem certeza que deseja deletar este hábito?")) {
+      return;
+    }
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
