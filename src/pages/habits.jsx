@@ -34,7 +34,6 @@ export default function Habits() {
 
   function cancelList() {
     setCreatList(false);
-    setWeekDay([]);
     setRun(run + 1);
   }
 
@@ -74,6 +73,18 @@ export default function Habits() {
     promise.catch((err) => console.log(err.response.data));
   }
 
+  function clickedDay(i) {
+    const isSelected = days.includes(i);
+
+    if (isSelected) {
+      const newDays = days.filter((day) => day !== i);
+      setWeekDay(newDays);
+      return;
+    }
+
+    setWeekDay([...days, i]);
+  }
+
   return (
     <BodyHabits>
       <Header />
@@ -103,7 +114,7 @@ export default function Habits() {
                   data-test="habit-day"
                   key={i}
                   active={days.includes(i)}
-                  onClick={() => setWeekDay([...days, i])}
+                  onClick={() => clickedDay(i)}
                 >
                   {w}
                 </ContainerButtonWeekDay>
